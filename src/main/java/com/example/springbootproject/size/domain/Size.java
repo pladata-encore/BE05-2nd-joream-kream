@@ -18,8 +18,8 @@ public class Size {
     @Column(name="SIZE_ID")
     private Long id;
 
-    @Column(name="SIZE")
-    private String size;
+    @Column(name="SIZE_VALUE")
+    private String sizeValue;
 
     @JoinColumn(name = "PRODUCT_ID")
     @ManyToOne
