@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "POINT_HISTORY")
+@Table(name = "POINT_HISTORYS")
 public class PointHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
