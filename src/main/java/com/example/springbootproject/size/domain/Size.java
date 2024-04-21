@@ -1,7 +1,7 @@
 package com.example.springbootproject.size.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.example.springbootproject.product.domain.Product;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,9 +11,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-//@Table(name = "USER")
+@Table(name = "SIZE")
 public class Size {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="SIZE_ID")
     private Long id;
 
+    @Column(name="SIZE_VALUE")
+    private String sizeValue;
+
+    @JoinColumn(name = "PRODUCT_ID")
+    @ManyToOne
+    private Product product;
 }
