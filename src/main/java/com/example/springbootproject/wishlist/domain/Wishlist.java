@@ -1,6 +1,6 @@
 package com.example.springbootproject.wishlist.domain;
 
-import com.example.springbootproject.auth.domain.Auth;
+import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,9 +18,9 @@ public class Wishlist {
     @Column(name = "WISHLIST_ID")
     private Long id;
 
-    @JoinColumn(name = "AUTH_ID")
+    @JoinColumn(name = "USER_ID")
     @ManyToOne
-    private Auth auth;
+    private User user;
 
     @JoinColumn(name = "PRODUCT_ID")
     @ManyToOne
