@@ -30,6 +30,6 @@ public class Sell {
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
     @Column(name = "MATCH_YN")
-    private boolean matchYn;
+    private Boolean matchYn;
 
 }
