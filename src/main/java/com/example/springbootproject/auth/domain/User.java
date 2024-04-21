@@ -19,16 +19,16 @@ public class User {
     @Column(name = "USER_NAME")
     private String username;
 
-    @Column(name = "ADDRESS")
+    @Column(name = "USER_ADDRESS")
     private String address;
 
-    @Column(name = "EMAIL")
+    @Column(name = "USER_EMAIL")
     private String email;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "USER_PASSWORD")
     private String password;
 
-    @Column(name = "POINT")
+    @Column(name = "USER_POINT")
     private Integer point;
 
 }

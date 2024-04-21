@@ -13,17 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-//@Table(name = "USER")
+@Table(name = "POINTHISTORY")
 public class PointHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POINTHISTORY_ID")
     private Long id;
 
-    @Column(name = "BALANCE")
+    @Column(name = "POINTHISTORY_BALANCE")
     private Integer balance;
 
-    @Column(name = "TRANSACTION_TYPE")
+    @Column(name = "POINTHISTORY_TRANSACTION_TYPE")
     private Boolean transactionType;
 
     @JoinColumn(name = "USER_ID")
