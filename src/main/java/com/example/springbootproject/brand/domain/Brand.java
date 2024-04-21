@@ -1,7 +1,6 @@
 package com.example.springbootproject.brand.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +10,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-//@Table(name = "USER")
+@Table(name = "BRAND")
 public class Brand {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="BRAND_ID")
     private Long id;
+
+    @Column(name="BRAND_NAME")
+    private String brandName;
 }
