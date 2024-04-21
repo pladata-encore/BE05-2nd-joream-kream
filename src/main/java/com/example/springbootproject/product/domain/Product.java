@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-//@Table(name = "USER")
+@Table(name = "PRODUCT")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Product {
     private String category;
 
     @JoinColumn(name = "BRAND_ID")
-    @OneToMany
+    @ManyToOne
     private Brand brand;
 
     @Column(name = "RELEASE_PRICE")
