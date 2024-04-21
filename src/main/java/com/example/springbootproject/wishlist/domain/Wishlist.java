@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-@Table(name = "WISHLIST")
+@Table(name = "WISHLISTS")
 public class Wishlist {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "WISHLIST_ID")
