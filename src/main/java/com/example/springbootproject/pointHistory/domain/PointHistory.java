@@ -1,7 +1,8 @@
-package com.example.springbootproject.point.domain;
+package com.example.springbootproject.pointHistory.domain;
 
 import com.example.springbootproject.auth.domain.User;
-import com.example.springbootproject.order.domain.OrderHistory;
+
+import com.example.springbootproject.orderHistory.domain.OrderHistory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "POINTHISTORY")
+@Table(name = "POINT_HISTORY")
 public class PointHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

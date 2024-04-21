@@ -1,4 +1,4 @@
-package com.example.springbootproject.point.service;
+package com.example.springbootproject.pointHistory.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

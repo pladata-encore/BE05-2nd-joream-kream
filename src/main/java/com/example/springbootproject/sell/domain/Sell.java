@@ -1,6 +1,6 @@
 package com.example.springbootproject.sell.domain;
 
-import com.example.springbootproject.auth.domain.Auth;
+import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.size.domain.Size;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class Sell {
     private Long id;
     @JoinColumn(name = "USER_ID")
     @OneToOne
-    private Auth auth;
+    private User user;
     @JoinColumn(name = "SIZE_ID")
     @ManyToOne
     private Size size;

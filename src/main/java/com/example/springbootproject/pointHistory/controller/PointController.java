@@ -1,4 +1,4 @@
-package com.example.springbootproject.point.controller;
+package com.example.springbootproject.pointHistory.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
