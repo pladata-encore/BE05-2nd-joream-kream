@@ -1,4 +1,4 @@
-package com.example.springbootproject.point.domain;
+package com.example.springbootproject.order.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter @Builder
 //@Table(name = "USER")
-public class Point {
+public class OrderHistory {
     @Id
     private Long id;
 }
