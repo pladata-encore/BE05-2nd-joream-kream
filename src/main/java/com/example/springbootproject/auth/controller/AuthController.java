@@ -1,17 +1,19 @@
 package com.example.springbootproject.auth.controller;
 
+import com.example.springbootproject.auth.dto.request.SignupRequest;
+import com.example.springbootproject.auth.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auths")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
-    @PostMapping("/create")
-    public void create(){
+    private final AuthService authService;
 
+    @PostMapping("/signup")
+    public void signUp(@RequestBody SignupRequest request){
+        authService.signup(request);
     }
 }

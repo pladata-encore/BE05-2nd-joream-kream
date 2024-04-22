@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum AuthErrorCode {
-    PERMISSION_DENIED("권한이 없습니다",HttpStatus.FORBIDDEN);
+    EMAIL_DUPLICATED("중복된 이메일이 존재합니다.",HttpStatus.CONFLICT),
+    PERMISSION_DENIED("권한이 없습니다.",HttpStatus.FORBIDDEN);
 
 
     private final String description;
