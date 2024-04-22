@@ -2,6 +2,7 @@ package com.example.springbootproject.auth.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Table(name = "USERS")
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +33,7 @@ public class User {
     @Column(name = "USER_POINT")
     private Integer point;
 
+    public void setPoint(Integer point) {
+        this.point = point;
+    }
 }
