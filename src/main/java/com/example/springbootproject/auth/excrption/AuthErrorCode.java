@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum AuthErrorCode {
     EMAIL_DUPLICATED("중복된 이메일이 존재합니다.",HttpStatus.CONFLICT),
+    LOGIN_FAIL("로그인이 실패했습니다.",HttpStatus.CONFLICT),
     PERMISSION_DENIED("권한이 없습니다.",HttpStatus.FORBIDDEN);
 
 
