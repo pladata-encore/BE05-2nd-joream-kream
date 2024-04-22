@@ -1,17 +1,26 @@
 package com.example.springbootproject.auth.controller;
 
+import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
+import com.example.springbootproject.auth.service.AuthService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auths")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
+
+    private final AuthService authService;
+
     @PostMapping("/create")
     public void create(){
 
+    }
+
+    @PostMapping("/{id}/point")
+    public void rechargePoints(@PathVariable Long id,
+                               @RequestBody RechargePointsRequest req){
+        authService.rechargePoints(id,req);
     }
 }
