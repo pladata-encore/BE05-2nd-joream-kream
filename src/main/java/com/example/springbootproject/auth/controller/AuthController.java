@@ -1,7 +1,9 @@
 package com.example.springbootproject.auth.controller;
 
+
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
+import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
 import com.example.springbootproject.auth.service.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +23,11 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request){
         return authService.login(request);
+    }
+
+    @PutMapping("/{id}/point")
+    public void rechargePoints(@PathVariable Long id,
+                               @RequestBody RechargePointsRequest req){
+        authService.rechargePoints(id,req);
     }
 }
