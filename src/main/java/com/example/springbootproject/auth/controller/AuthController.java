@@ -4,8 +4,8 @@ package com.example.springbootproject.auth.controller;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
+import com.example.springbootproject.auth.dto.response.UserInfoResponse;
 import com.example.springbootproject.auth.service.AuthService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    @GetMapping("/{id}/info")
+    public UserInfoResponse getUser(@PathVariable("id") Long id){
+        return authService.getUserById(id);
+    }
 
     @PostMapping("/signup")
     public void signUp(@RequestBody SignupRequest request){
