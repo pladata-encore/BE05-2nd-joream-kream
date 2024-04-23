@@ -1,10 +1,7 @@
 package com.example.springbootproject.auth.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
@@ -18,13 +15,13 @@ public class User {
     @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "USER_NAME")
+    @Column(name = "USER_NAME") @Setter
     private String username;
 
-    @Column(name = "USER_ADDRESS")
+    @Column(name = "USER_ADDRESS") @Setter
     private String address;
 
-    @Column(name = "USER_EMAIL")
+    @Column(name = "USER_EMAIL") @Setter
     private String email;
 
     @Column(name = "USER_PASSWORD")

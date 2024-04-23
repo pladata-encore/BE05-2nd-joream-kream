@@ -4,6 +4,7 @@ package com.example.springbootproject.auth.controller;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
+import com.example.springbootproject.auth.dto.request.UpdateUserRequest;
 import com.example.springbootproject.auth.dto.response.UserInfoResponse;
 import com.example.springbootproject.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,11 @@ public class AuthController {
     @GetMapping("/{id}/info")
     public UserInfoResponse getUser(@PathVariable("id") Long id){
         return authService.getUserById(id);
+    }
+
+    @PutMapping("/{id}/info")
+    public void updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest req){
+        authService.updateUserById(req,id);
     }
 
     @PostMapping("/signup")

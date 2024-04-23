@@ -4,6 +4,7 @@ import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
+import com.example.springbootproject.auth.dto.request.UpdateUserRequest;
 import com.example.springbootproject.auth.dto.response.UserInfoResponse;
 
 public interface AuthService {
@@ -14,4 +15,6 @@ public interface AuthService {
     void rechargePoints(Long id, RechargePointsRequest req);
 
     UserInfoResponse getUserById(Long id);
+
+    void updateUserById(UpdateUserRequest req, Long id);
 }
