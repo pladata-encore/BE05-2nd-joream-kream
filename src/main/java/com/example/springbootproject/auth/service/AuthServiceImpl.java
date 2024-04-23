@@ -1,5 +1,6 @@
 package com.example.springbootproject.auth.service;
 
+import com.example.springbootproject.auth.config.JwtTokenUtils;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
@@ -18,6 +19,7 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthRepository authRepository;
+    private final JwtTokenUtils jwtTokenUtils;
     // 회원가입
     @Override
     public void signup(SignupRequest signupRequest) {
@@ -29,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
     }
     // 로그인
     @Override
-    public void login(@RequestBody LoginRequest request) {
+    public String login(@RequestBody LoginRequest request) {
         //         디비에 있는 것을 찾는다 username 가지고 찾아서
         List<User> byEmail = authRepository.findByEmail(request.email());
         if(byEmail.isEmpty()){
@@ -41,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorCode.LOGIN_FAIL);
         }
         //        맞으면 토큰을 리턴 할것이다.
+        return jwtTokenUtils.createToken(user);
     }
 
 }
