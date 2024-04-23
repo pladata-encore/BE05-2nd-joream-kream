@@ -18,7 +18,7 @@ public class AuthController {
 
     }
 
-    @PostMapping("/{id}/point")
+    @PutMapping("/{id}/point")
     public void rechargePoints(@PathVariable Long id,
                                @RequestBody RechargePointsRequest req){
         authService.rechargePoints(id,req);
