@@ -25,6 +25,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthRepository authRepository;
     private final JwtTokenUtils jwtTokenUtils;
     // 회원가입
+    @Transactional
     @Override
     public void signup(SignupRequest signupRequest) {
         String encoded = passwordEncoder.encode(signupRequest.password());
@@ -34,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
         authRepository.save(entity);
     }
     // 로그인
+    @Transactional
     @Override
     public String login(@RequestBody LoginRequest request) {
         //         디비에 있는 것을 찾는다 username 가지고 찾아서
