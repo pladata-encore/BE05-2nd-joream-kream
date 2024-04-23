@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductController {
     private final ProductService productService;
-
     // 전체 조회
     @GetMapping
     public List<ProductResponse> getAllProducts() {

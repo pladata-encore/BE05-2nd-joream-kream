@@ -40,6 +40,9 @@ public class PointHistory {
     @Column(name = "PRODUCTNAME")
     private String productName;
 
+    @Column(name = "TRANSACTION_VOLUME")
+    private Integer transactionVolume;
+
     @Column(name = "SIZE")
     private String size;
 
