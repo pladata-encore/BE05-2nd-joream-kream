@@ -74,6 +74,7 @@ public class AuthServiceImpl implements AuthService {
         //바뀐 내역을 pointHistory에 저장을 해줘야 함
         PointHistory pointHistory = PointHistory.builder()
                 .balance(user.getPoint())//잔액
+                .transactionVolume(req.chargePoint())//거래금액
                 .transactionType(true)
                 .user(user)
                 .build();
