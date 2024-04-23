@@ -1,5 +1,6 @@
 package com.example.springbootproject.auth.service;
 
+import com.example.springbootproject.auth.config.TokenInfo;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
@@ -14,7 +15,7 @@ public interface AuthService {
 
     void rechargePoints(Long id, RechargePointsRequest req);
 
-    UserInfoResponse getUserById(Long id);
+    UserInfoResponse getUserById(TokenInfo tokenInfo);
 
-    void updateUserById(UpdateUserRequest req, Long id);
+    void updateUserById(UpdateUserRequest req, TokenInfo tokenInfo);
 }

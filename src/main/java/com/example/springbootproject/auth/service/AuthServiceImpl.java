@@ -1,6 +1,7 @@
 package com.example.springbootproject.auth.service;
 
 import com.example.springbootproject.auth.config.JwtTokenUtils;
+import com.example.springbootproject.auth.config.TokenInfo;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
@@ -84,16 +85,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public UserInfoResponse getUserById(Long id) {
-        Optional<User> byId = authRepository.findById(id);
+    public UserInfoResponse getUserById(TokenInfo tokenInfo) {
+        Optional<User> byId = authRepository.findById(tokenInfo.id());
         User user = byId.orElseThrow(()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
         return new UserInfoResponse(user.getUsername(),user.getAddress(),user.getEmail(),user.getPoint());
     }
 
     @Transactional
     @Override
-    public void updateUserById(UpdateUserRequest req, Long id) {
-        Optional<User> byId = authRepository.findById(id);
+    public void updateUserById(UpdateUserRequest req, TokenInfo token) {
+        Optional<User> byId = authRepository.findById(token.id());
         User user = byId
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
         user.setUsername(req.name());

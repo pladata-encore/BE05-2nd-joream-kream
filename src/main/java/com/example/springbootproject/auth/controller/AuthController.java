@@ -1,11 +1,15 @@
 package com.example.springbootproject.auth.controller;
 
 
+import com.example.springbootproject.auth.config.JwtTokenUtils;
+import com.example.springbootproject.auth.config.TokenInfo;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
 import com.example.springbootproject.auth.dto.request.UpdateUserRequest;
 import com.example.springbootproject.auth.dto.response.UserInfoResponse;
+import com.example.springbootproject.auth.excrption.AuthErrorCode;
+import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +19,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    @GetMapping("/{id}/info")
-    public UserInfoResponse getUser(@PathVariable("id") Long id){
-        return authService.getUserById(id);
+    private final JwtTokenUtils jwtTokenUtils;
+    @GetMapping("/info")
+    public UserInfoResponse getUser(@RequestHeader("Authorization") String bearerToken){
+        TokenInfo tokenInfo = getTokenInfo(bearerToken);
+        return authService.getUserById(tokenInfo);
     }
 
-    @PutMapping("/{id}/info")
-    public void updateUser(@PathVariable("id") Long id, @RequestBody UpdateUserRequest req){
-        authService.updateUserById(req,id);
+    @PutMapping("/info")
+    public void updateUser(@RequestBody UpdateUserRequest req,@RequestHeader("Authorization") String bearerToken){
+        TokenInfo tokenInfo = getInfo(bearerToken);
+        authService.updateUserById(req,tokenInfo);
     }
 
     @PostMapping("/signup")
@@ -40,4 +47,16 @@ public class AuthController {
                                @RequestBody RechargePointsRequest req){
         authService.rechargePoints(id,req);
     }
+
+    private TokenInfo getTokenInfo(String bearerToken) {
+        TokenInfo tokenInfo = getInfo(bearerToken);
+        return tokenInfo;
+    }
+    private TokenInfo getInfo(String bearerToken) {
+        if(bearerToken.isEmpty()) throw new AuthException(AuthErrorCode.PERMISSION_DENIED);
+        String token = bearerToken.substring(7);
+        TokenInfo tokenInfo = jwtTokenUtils.parseToken(token);
+        return tokenInfo;
+    }
+
 }
