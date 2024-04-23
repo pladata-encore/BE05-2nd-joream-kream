@@ -31,6 +31,6 @@ public class User {
     private Integer point;
 
     public void setPoint(Integer point) {
-        this.point = point;
+    this.point = point;
     }
 }
