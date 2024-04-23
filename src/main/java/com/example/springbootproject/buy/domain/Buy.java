@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,7 @@ public class Buy {
     @Column(name = "PRICE")
     private Long price;
     @Column(name = "CREATED_AT")
+    @CreatedDate
     private LocalDateTime createdAt;
     @Column(name = "MATCH_YN")
     private Boolean matchYn;

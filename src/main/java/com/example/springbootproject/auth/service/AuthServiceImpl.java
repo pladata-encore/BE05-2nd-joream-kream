@@ -7,6 +7,9 @@ import com.example.springbootproject.auth.dto.request.SignupRequest;
 import com.example.springbootproject.auth.excrption.AuthErrorCode;
 import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.repository.AuthRepository;
+import com.example.springbootproject.pointHistory.domain.PointHistory;
+import com.example.springbootproject.pointHistory.repository.PointRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
@@ -23,6 +26,7 @@ import java.util.List;
 public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthRepository authRepository;
+    private final PointRepository pointRepository;
     private final JwtTokenUtils jwtTokenUtils;
     // 회원가입
     @Transactional
@@ -61,6 +65,16 @@ public class AuthServiceImpl implements AuthService {
 
         User user = authRepository.findById(id).orElseThrow(()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
-        user.setPoint(user.getPoint() + req.chargePoint());
+        user.setPoint(user.getPoint() + req.chargePoint());//포인트가 바뀜
+
+        //바뀐 내역을 pointHistory에 저장을 해줘야 함
+        PointHistory pointHistory = PointHistory.builder()
+                .balance(user.getPoint())//잔액
+                .transactionType(true)
+                .user(user)
+                .build();
+
+        pointRepository.save(pointHistory);
     }
+
 }
