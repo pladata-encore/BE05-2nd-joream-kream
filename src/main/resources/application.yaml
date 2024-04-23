@@ -14,4 +14,4 @@ spring:
 
 token:
   secret: joreamjoreamjoreamjoreamjoreamjoreamjoream
-  expiration: 60000
+  expiration: 60000000
