@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -17,18 +18,25 @@ import java.time.LocalDateTime;
 @Table(name = "SELLS")
 public class Sell {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "SELL_ID")
     private Long id;
+
     @JoinColumn(name = "USER_ID")
     @OneToOne
     private User user;
+
     @JoinColumn(name = "SIZE_ID")
     @ManyToOne
     private Size size;
+
     @Column(name = "PRICE")
     private Long price;
+
     @Column(name = "CREATED_AT")
+    @CreatedDate
     private LocalDateTime createdAt;
+
     @Column(name = "MATCH_YN")
     private Boolean matchYn;
 

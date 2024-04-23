@@ -1,4 +1,4 @@
-package com.example.springbootproject.auth.excrption;
+package com.example.springbootproject.wishlist.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,11 +6,10 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum AuthErrorCode {
-    EMAIL_DUPLICATED("중복된 이메일이 존재합니다.",HttpStatus.CONFLICT),
-    LOGIN_FAIL("로그인이 실패했습니다.",HttpStatus.CONFLICT),
-    RECHARGE_IS_AVAILABLE_FROM_10000_KRW("충전은 10000원부터 가능합니다",HttpStatus.BAD_REQUEST),
+public enum WishlistErrorCode {
+
     USER_NOT_FOUND("해당 회원은 존재하지 않습니다",HttpStatus.NOT_FOUND),
+    PRODUCT_NOT_FOUND("해당 상품이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     PERMISSION_DENIED("권한이 없습니다",HttpStatus.FORBIDDEN);
 
 

@@ -1,4 +1,4 @@
 package com.example.springbootproject.auth.dto.request;
 
-public record AuthRequest() {
+public record RechargePointsRequest(int chargePoint) {
 }
