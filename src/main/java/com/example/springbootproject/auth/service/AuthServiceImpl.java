@@ -4,6 +4,7 @@ import com.example.springbootproject.auth.config.JwtTokenUtils;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.dto.request.LoginRequest;
 import com.example.springbootproject.auth.dto.request.SignupRequest;
+import com.example.springbootproject.auth.dto.response.UserInfoResponse;
 import com.example.springbootproject.auth.excrption.AuthErrorCode;
 import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.repository.AuthRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +77,14 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         pointRepository.save(pointHistory);
+    }
+
+    @Transactional
+    @Override
+    public UserInfoResponse getUserById(Long id) {
+        Optional<User> byId = authRepository.findById(id);
+        User user = byId.orElseThrow(()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        return new UserInfoResponse(user.getUsername(),user.getAddress(),user.getEmail(),user.getPoint());
     }
 
 }
