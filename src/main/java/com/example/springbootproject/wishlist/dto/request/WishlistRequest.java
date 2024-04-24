@@ -1,5 +1,4 @@
 package com.example.springbootproject.wishlist.dto.request;
 
-public record WishlistRequest(Long userId, Long productId, String sizeValue) {
-
+public record WishlistRequest(/*Long userId, */Long productId, String sizeValue) {
 }
