@@ -28,7 +28,7 @@ public class AuthController {
 
     @PutMapping("/info")
     public void updateUser(@RequestBody UpdateUserRequest req,@RequestHeader("Authorization") String bearerToken){
-        TokenInfo tokenInfo = getInfo(bearerToken);
+        TokenInfo tokenInfo = getTokenInfo(bearerToken);
         authService.updateUserById(req,tokenInfo);
     }
 
@@ -49,14 +49,8 @@ public class AuthController {
     }
 
     private TokenInfo getTokenInfo(String bearerToken) {
-        TokenInfo tokenInfo = getInfo(bearerToken);
-        return tokenInfo;
-    }
-    private TokenInfo getInfo(String bearerToken) {
         if(bearerToken.isEmpty()) throw new AuthException(AuthErrorCode.PERMISSION_DENIED);
-        String token = bearerToken.substring(7);
-        TokenInfo tokenInfo = jwtTokenUtils.parseToken(token);
-        return tokenInfo;
+        return  jwtTokenUtils.parseToken(bearerToken.substring(7));
     }
 
 }
