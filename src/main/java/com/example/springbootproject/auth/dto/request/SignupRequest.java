@@ -10,7 +10,7 @@ public record SignupRequest(String username, String address, String password,Str
                 address,
                 email,
                 encodedPassword,
-                0
+                0L
         );
     }
 }

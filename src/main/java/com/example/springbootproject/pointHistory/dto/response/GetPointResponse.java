@@ -4,7 +4,7 @@ import com.example.springbootproject.pointHistory.domain.PointHistory;
 import lombok.Builder;
 
 @Builder
-public record GetPointResponse(int balance, boolean transactionType ,int transactionVolume) {
+public record GetPointResponse(Long balance, boolean transactionType ,Long transactionVolume) {
 
     public static GetPointResponse from(PointHistory pointHistory){
         return GetPointResponse.builder()

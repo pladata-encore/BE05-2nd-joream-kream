@@ -1,6 +1,8 @@
 package com.example.springbootproject.buy.service;
 
 import com.example.springbootproject.buy.dto.response.MinPricePerSize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,6 +23,6 @@ public interface BuyService {
     void savePurchase(Long productId, String sizeValue, Long price, Integer duration, Long userId);
 
     // 구매 체결은 판매 매물의 가격을 주기적으로 확인해서 진행
-    void buyNow(Long price);
+    void buyNow(Long productId, String sizeValue, Long price, Long  userId);
 
 }
