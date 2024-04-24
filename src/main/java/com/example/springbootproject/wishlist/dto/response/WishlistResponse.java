@@ -4,24 +4,16 @@ import com.example.springbootproject.wishlist.domain.Wishlist;
 
 public record WishlistResponse(
         Long id,
-        WishUserInfo user,
-        WishProductInfo product
+        WishSizeInfo size
 ) {
     public static WishlistResponse from(Wishlist wishlist) {
-        WishUserInfo uInfo = new WishUserInfo(
-                wishlist.getUser().getId(),
-                wishlist.getUser().getUsername()
+
+        WishSizeInfo sInfo = new WishSizeInfo(
+                wishlist.getSize().getId(),
+                wishlist.getSize().getSizeValue(),
+                wishlist.getSize().getProduct()
         );
 
-        WishProductInfo pInfo = new WishProductInfo(
-                wishlist.getProduct().getId(),
-                wishlist.getProduct().getName(),
-                wishlist.getProduct().getCategory(), // 보류
-                wishlist.getProduct().getBrand(),
-                wishlist.getProduct().getColor()
-        );
-
-        WishlistResponse response = new WishlistResponse(wishlist.getId(), uInfo, pInfo);
-        return response;
+        return new WishlistResponse(wishlist.getId(), sInfo);
     }
 }
