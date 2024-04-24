@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface WishlistService {
 
-    List<WishlistResponse> getAllWishlist(Long uid/*String token*/);
+    List<WishlistResponse> getAllWishlist(/*Long uid*/String token);
 
-    void addOrDeleteWishlist(WishlistRequest request);
+    void addOrDeleteWishlist(String token, WishlistRequest request);
 }

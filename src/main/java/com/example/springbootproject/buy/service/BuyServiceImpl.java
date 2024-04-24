@@ -16,6 +16,7 @@ import com.example.springbootproject.sell.repository.SellRepository;
 import com.example.springbootproject.size.domain.Size;
 import com.example.springbootproject.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -115,4 +116,6 @@ public class BuyServiceImpl implements BuyService {
 
         // 판매 테이블에서 매물 삭제
     }
+
+
 }

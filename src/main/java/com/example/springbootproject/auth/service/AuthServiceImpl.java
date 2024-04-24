@@ -63,12 +63,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void rechargePoints(Long id, RechargePointsRequest req) {
+    public void rechargePoints(TokenInfo tokenInfo, RechargePointsRequest req) {
         //10000원부터 충전 가능함
         if(req.chargePoint() < 10000) throw new AuthException(AuthErrorCode.RECHARGE_IS_AVAILABLE_FROM_10000_KRW);
         //회원을 찾아와서 포인트를 충전함
 
-        User user = authRepository.findById(id).orElseThrow(()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User user = authRepository.findById(tokenInfo.id()).orElseThrow(()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
         user.setPoint(user.getPoint() + req.chargePoint());//포인트가 바뀜
 

@@ -1,5 +1,7 @@
 package com.example.springbootproject.wishlist.service;
 
+import com.example.springbootproject.auth.config.JwtTokenUtils;
+import com.example.springbootproject.auth.config.TokenInfo;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.auth.repository.AuthRepository;
 import com.example.springbootproject.product.domain.Product;
@@ -26,19 +28,24 @@ public class WishlistServiceImpl implements WishlistService {
     private final AuthRepository authRepository;
     private final ProductRepository productRepository;
     private final SizeRepository sizeRepository;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @Override
-    public List<WishlistResponse> getAllWishlist(Long userid/*String token*/) {
-        return wishlistRepository.findAllByUser_Id(userid)
+    public List<WishlistResponse> getAllWishlist(/*Long userid*/String token) {
+        TokenInfo tokenInfo = jwtTokenUtils.parseToken(token);
+        return wishlistRepository.findAllByUser_Id(tokenInfo.id())
                 .stream()
                 .map(WishlistResponse::from)
                 .toList();
     }
 
     @Override
-    public void addOrDeleteWishlist(WishlistRequest request){
+    public void addOrDeleteWishlist(String token, WishlistRequest request){
+        // 토큰으로 userID 를 가지고오기 위함
+        TokenInfo tokenInfo = jwtTokenUtils.parseToken(token);
+
         // user 테이블에 user 가 있는지 확인
-        Optional<User> uid = authRepository.findById(request.userId());
+        Optional<User> uid = authRepository.findById(tokenInfo.id());
         User user = uid.orElseThrow(() -> new WishlistException(WishlistErrorCode.USER_NOT_FOUND));
 
         // product 테이블에 product 가 있는지 확인

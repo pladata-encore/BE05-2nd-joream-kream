@@ -42,10 +42,12 @@ public class AuthController {
         return authService.login(request);
     }
 
-    @PutMapping("/{id}/point")
-    public void rechargePoints(@PathVariable Long id,
+    @PutMapping("/point")
+    public void rechargePoints(@RequestHeader("Authorization") String bearerToken,
                                @RequestBody RechargePointsRequest req){
-        authService.rechargePoints(id,req);
+
+        TokenInfo tokenInfo = getTokenInfo(bearerToken);
+        authService.rechargePoints(tokenInfo,req);
     }
 
     private TokenInfo getTokenInfo(String bearerToken) {
