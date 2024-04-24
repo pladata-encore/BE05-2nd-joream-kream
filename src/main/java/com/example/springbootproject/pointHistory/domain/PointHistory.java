@@ -31,9 +31,6 @@ public class PointHistory {
     @Column(name = "ORDER_CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "TARGET_ID")
-    private Long targetId;
-
     @Column(name = "PRICE")
     private Integer price;
 
