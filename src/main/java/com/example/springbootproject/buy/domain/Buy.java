@@ -33,5 +33,6 @@ public class Buy {
     private LocalDateTime createdAt;
     @Column(name = "MATCH_YN")
     private Boolean matchYn;
-
+    @Column(name = "END_AT")
+    private LocalDateTime endAt;
 }
