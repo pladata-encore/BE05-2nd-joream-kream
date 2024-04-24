@@ -23,7 +23,7 @@ public class Sell {
     private Long id;
 
     @JoinColumn(name = "USER_ID")
-    @OneToOne
+    @ManyToOne // OneToOne에서 수정
     private User user;
 
     @JoinColumn(name = "SIZE_ID")

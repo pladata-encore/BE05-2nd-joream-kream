@@ -1,22 +1,27 @@
 package com.example.springbootproject.buy.controller;
 
+import com.example.springbootproject.auth.config.JwtTokenUtils;
+import com.example.springbootproject.auth.config.TokenInfo;
+import com.example.springbootproject.auth.excrption.AuthErrorCode;
+import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.service.AuthService;
 import com.example.springbootproject.buy.dto.response.MinPricePerSize;
 import com.example.springbootproject.buy.service.BuyService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.antlr.v4.runtime.Token;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1")
-@AllArgsConstructor
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BuyController {
 
     private final BuyService buyService;
     private final AuthService authService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     // 해당 product_id를 가진 sell entity를 가져와야 한다.
     // product_id를 가지고 size list를 가져온다.
@@ -28,10 +33,11 @@ public class BuyController {
 
 
     // 구매 버튼 누르고 사이즈별 가격나올 때 사용
-    @GetMapping("/products/{productId}")
-    public List<MinPricePerSize> getMinPricePerSize(@PathVariable Long productId) {
+//    @RequestHeader("Authorization") String bearerToken
+    @GetMapping("/productsDetail/{productId}")
+    public List<MinPricePerSize> getMinPricePerSize(@PathVariable("productId") Long productId) {
         // token 인증 필요
-
+//        if(bearerToken.isEmpty()) throw new AuthException(AuthErrorCode.PERMISSION_DENIED);
         // 최소 가격 가져오기
         return buyService.findMinPricePerSize(productId);
     }
@@ -43,9 +49,9 @@ public class BuyController {
                                @RequestParam("size") String sizeValue,
                                @RequestBody Long price,
                                @RequestBody Integer duration,
-                               Long userId) {
+                               TokenInfo tokenInfo) {
         // userId 는 token 사용
-        buyService.savePurchase(productId, sizeValue, price, duration, userId);
+        buyService.savePurchase(productId, sizeValue, price, duration, tokenInfo.id());
 
     }
 
@@ -56,7 +62,7 @@ public class BuyController {
     public void buyNow(@PathVariable Long productId,
                        @RequestParam("size") String sizeValue,
                        @RequestBody Long price,
-                       Long  userId) {
+                       Long userId) {
         buyService.buyNow(productId, sizeValue, price, userId);
     }
 

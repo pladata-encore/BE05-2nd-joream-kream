@@ -28,9 +28,9 @@ public class User {
     private String password;
 
     @Column(name = "USER_POINT")
-    private Integer point;
+    private Long point;
 
-    public void setPoint(Integer point) {
+    public void setPoint(Long point) {
     this.point = point;
     }
 }

@@ -23,7 +23,7 @@ public class PointHistory {
     private Long id;
 
     @Column(name = "POINTHISTORY_BALANCE")
-    private Integer balance;
+    private Long balance;
 
     @Column(name = "POINTHISTORY_TRANSACTION_TYPE")
     private Boolean transactionType; //T면 입금 F면 출금
@@ -31,17 +31,14 @@ public class PointHistory {
     @Column(name = "ORDER_CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "TARGET_ID")
-    private Long targetId;
-
     @Column(name = "PRICE")
-    private Integer price;
+    private Long price;
 
     @Column(name = "PRODUCTNAME")
     private String productName;
 
     @Column(name = "TRANSACTION_VOLUME")
-    private Integer transactionVolume;
+    private Long transactionVolume;
 
     @Column(name = "SIZE")
     private String size;
@@ -50,7 +47,7 @@ public class PointHistory {
     @ManyToOne
     private User user;
 
-    public void setBalance(Integer balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 
