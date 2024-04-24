@@ -1,7 +1,7 @@
 package com.example.springbootproject.wishlist.domain;
 
 import com.example.springbootproject.auth.domain.User;
-import com.example.springbootproject.product.domain.Product;
+import com.example.springbootproject.size.domain.Size;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +22,8 @@ public class Wishlist {
     @ManyToOne
     private User user;
 
-    @JoinColumn(name = "PRODUCT_ID")
+    @JoinColumn(name = "SIZE_ID")
     @ManyToOne
-    private Product product;
+    private Size size;
 
 }
