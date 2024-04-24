@@ -56,6 +56,7 @@ public class BuyServiceImpl implements BuyService {
 
     @Override
     public void savePurchase(Long productId, String sizeValue, Long price, Integer duration, Long userId) {
+        // 구매 요청서 저장
         Optional<User> userById = authRepository.findById(userId);
         User user = userById.orElseThrow(() -> new IllegalArgumentException("없는 유저입니다."));
         Optional<Product> productById = productRepository.findById(productId);
@@ -63,12 +64,19 @@ public class BuyServiceImpl implements BuyService {
         Size size = new Size(null, sizeValue, product);
         Buy buy = new Buy(null, user, size, price, LocalDateTime.now(), false, LocalDateTime.now().plusDays(duration));
         buyRepository.save(buy);
-
+        //point 차감
+        
         // cron으로 duration 동안 판매 매물 확인해서 거래 진행
+
+        // "order history 등록"
     }
 
     @Override
-    public void buyNow(Long price) {
+    public void buyNow(Long productId, String sizeValue, Long price, Long userId) {
+        // point 차감
 
+        // order history 업데이트
+
+        // 판매 테이블에서 매물 삭제
     }
 }

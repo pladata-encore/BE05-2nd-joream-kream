@@ -38,7 +38,7 @@ public class BuyController {
 
     // 구매 버튼에서 상품 선택하고 희망 구매 가격 입력할 때 사용
     // 일반 구매 : 입찰 가격 및 경매 마감 기한을 작성해서 구매 요청서 저장하고 point 차감
-    @PostMapping("buy/{productId}")
+    @PostMapping("buy/{Id}")
     public void askForPurchase(@PathVariable Long productId,
                                @RequestParam("size") String sizeValue,
                                @RequestBody Long price,
@@ -47,16 +47,20 @@ public class BuyController {
         // userId 는 token 사용
         buyService.savePurchase(productId, sizeValue, price, duration, userId);
 
-        // pointHistory 차감
     }
+
 
 
     // 즉시 구매
-    void buyNow(Long price) {
-
+    @DeleteMapping("buy/{productId}")
+    public void buyNow(@PathVariable Long productId,
+                       @RequestParam("size") String sizeValue,
+                       @RequestBody Long price,
+                       Long  userId) {
+        buyService.buyNow(productId, sizeValue, price, userId);
     }
 
-    // OrderHistory에 추가
+
 
 
 
