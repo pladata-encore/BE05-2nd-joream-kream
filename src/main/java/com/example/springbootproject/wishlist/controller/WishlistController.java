@@ -15,19 +15,19 @@ import java.util.List;
 public class WishlistController {
     private WishlistService wishlistService;
 
-    @GetMapping("/{userid}")
-    public List<WishlistResponse> getAllWishlists(@PathVariable("userid") Long userid
-            /*@RequestHeader("Authorization") String bearerToken*/){
-        //String token = bearerToken.substring(7);
+    @GetMapping("/info")
+    public List<WishlistResponse> getAllWishlists(/*@PathVariable("userid") Long userid*/
+            @RequestHeader("Authorization") String bearerToken){
+        String token = bearerToken.substring(7);
 
-        return wishlistService.getAllWishlist(userid/*token*/);
+        return wishlistService.getAllWishlist(/*userid*/token);
     }
 
     @PostMapping
-    public void addOrDeleteWishlist(/*@RequestHeader("Authorization") String bearerToken,*/
+    public void addOrDeleteWishlist(@RequestHeader("Authorization") String bearerToken,
                             @RequestBody WishlistRequest request){
-        // String token = bearerToken.substring(7);
-        wishlistService.addOrDeleteWishlist(request);
+        String token = bearerToken.substring(7);
+        wishlistService.addOrDeleteWishlist(token, request);
     }
 
 }
