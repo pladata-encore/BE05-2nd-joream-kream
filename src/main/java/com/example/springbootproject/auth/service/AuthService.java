@@ -13,7 +13,7 @@ public interface AuthService {
 
     String login(LoginRequest request);
 
-    void rechargePoints(Long id, RechargePointsRequest req);
+    void rechargePoints(TokenInfo tokenInfo, RechargePointsRequest req);
 
     UserInfoResponse getUserById(TokenInfo tokenInfo);
 
