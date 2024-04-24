@@ -29,4 +29,9 @@ public class ProductServiceImpl implements ProductService {
         Product product = byId.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
         return product;
     }
+
+    @Override
+    public List<ProductResponse> findByProductName(String search) {
+        return productRepository.findByNameContaining(search).stream().map(ProductResponse::from).toList();
+    }
 }
