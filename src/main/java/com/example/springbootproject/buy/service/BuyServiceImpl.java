@@ -11,6 +11,7 @@ import com.example.springbootproject.sell.repository.SellRepository;
 import com.example.springbootproject.size.domain.Size;
 import com.example.springbootproject.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,10 +66,13 @@ public class BuyServiceImpl implements BuyService {
         buyRepository.save(buy);
 
         // cron으로 duration 동안 판매 매물 확인해서 거래 진행
+
     }
 
     @Override
     public void buyNow(Long price) {
 
     }
+
+
 }
