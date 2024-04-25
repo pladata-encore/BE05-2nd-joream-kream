@@ -31,8 +31,8 @@ public class PointHistory {
     @Column(name = "ORDER_CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "PRICE")
-    private Long price;
+//    @Column(name = "PRICE")
+//    private Long price;
 
     @Column(name = "PRODUCTNAME")
     private String productName;

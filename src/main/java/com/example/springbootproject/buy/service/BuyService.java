@@ -27,7 +27,6 @@ public interface BuyService {
     void buyNow(Long productId, String sizeValue, Long minPrice, Long userId);
 
 
-    void refund(Long buyId, Long userId);
 
 
 }

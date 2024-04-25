@@ -69,13 +69,7 @@ public class BuyController {
         buyService.buyNow(productId, sizeValue, minPrice, userId);
     }
 
-    // 구매 입찰 기간 끝나고 자동 환불
-    @PostMapping("/refund")
-    public void refund(@RequestParam("buyId") Long buyId, @RequestHeader("Authorization") String bearerToken) {
-        TokenInfo tokenInfo = jwtTokenUtils.parseToken(bearerToken.substring(7));
-        Long userId = tokenInfo.id();
-        buyService.refund(buyId, userId);
-    }
+
 
 
 

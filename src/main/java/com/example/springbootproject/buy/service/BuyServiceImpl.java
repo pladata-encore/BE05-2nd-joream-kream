@@ -64,9 +64,10 @@ public class BuyServiceImpl implements BuyService {
             Size sizeObject = byProductId.get(i);
             // size entity 에서 size_value를 받는다.
             String size = sizeObject.getSizeValue();
-            // size_id를 가지고 최소 price를 가져온다.
-            List<Sell> bySizeId = sellRepository.findAllBySize_IdOrderByPrice(sizeObject.getId());
+            // size_id를 가지고 최소 price를 가져온다. 대신 matching 유무가 false인 것만
+            List<Sell> bySizeId = sellRepository.findAllBySize_IdAndMatchYnOrderByPrice(sizeObject.getId(), false);
             if (bySizeId.isEmpty()) continue; // 해당 sizeId가 없으면 건너뛴다.
+
             Long price = bySizeId.get(0).getPrice();
             // 이들을 하나의 record로 묶는다.
             MinPricePerSize minPricePerSize = new MinPricePerSize(size, price);
@@ -81,30 +82,29 @@ public class BuyServiceImpl implements BuyService {
         // 구매 요청서 저장
         Long userId = buyRequest.userId();
         Optional<User> userById = authRepository.findById(userId);
-        User user = userById.orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User user = userById.orElseThrow(() -> new BuyException(BuyErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
-        Product product = productById.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
         Size getSize = sizeRepository.findBySizeValueAndProductId(sizeValue,productId);
 //        sizeRepository.save(size); // DB에 저장을 해놔야 뒤에 buyRepository에서 문제가 없다.
         Long price = buyRequest.price();
         // 즉시 구매가 보다 작으면 즉시 구매가로 보여줌 @프론트
         Integer duration = buyRequest.duration();
-        Buy buy = new Buy(null, user, getSize, price, LocalDateTime.now(), false, LocalDateTime.now().plusDays(duration));
+        Buy buy = new Buy(null, user, getSize, price, LocalDateTime.now(), true, LocalDateTime.now().plusDays(duration));
         buyRepository.save(buy);
 //        point 차감
 //         1. 내 포인트 잔액을 가져온다.
         List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
-        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balanceByUserId.isEmpty()) throw new  BuyException(BuyErrorCode.NO_POINT);
         Long balance = balanceByUserId.get(0).getBalance();
 //        Long balance = 500000L;
-        if (balance < price) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balance < price) throw new BuyException(BuyErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
         Long newBalance = balance - price; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
                 , newBalance
                 , false
                 , LocalDateTime.now()
-                , price
                 , product.getName()
                 , price
                 , sizeValue
@@ -119,30 +119,33 @@ public class BuyServiceImpl implements BuyService {
                 , null // sellId는 판매자 쪽에서 넣어준다.
                 , LocalDateTime.now());
         orderHistoryRepository.save(orderHistory);
+
         // cron으로 하루에 한 번씩 endAt 확인하고 지나면 매물 삭제 후 돈 환불 @Main
+
     }
 
     @Override
     public void buyNow(Long productId, String sizeValue, Long minPrice, Long userId) {
         // user 및 product 정보 가져오기
         Optional<User> userById = authRepository.findById(userId);
-        User user = userById.orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User user = userById.orElseThrow(() -> new  BuyException(BuyErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
-        Product product = productById.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
+
+
 
         // point 차감
 //        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
 //        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
 //        Long balance = balanceByUserId.get(0).getBalance();
         Long balance = 500000L;
-        if (balance < minPrice) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balance < minPrice) throw new  BuyException(BuyErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
         Long newBalance = balance - minPrice; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
                 , newBalance
                 , false
                 , LocalDateTime.now()
-                , minPrice
                 , product.getName()
                 , minPrice
                 , sizeValue
@@ -159,20 +162,12 @@ public class BuyServiceImpl implements BuyService {
                 , LocalDateTime.now());
         orderHistoryRepository.save(orderHistory);
 
-        // 판매 테이블에서 매물 삭제
+        // 판매 테이블에서 matchYn = true로 바꿔줌
+        // 이걸 위해 sellId가 필요 (판매 쪽에서는 판매가 되면 true)
+
+
     }
 
 
-//    @Override
-//    public void refund(Long buyId, Long userId) {
-//        Optional<Buy> byId = buyRepository.findById(buyId);
-//        Buy buy = byId.orElseThrow(() -> new BuyException(BuyErrorCode.BUY_NOT_FOUND));
-//        Long refundAmount = buy.getPrice();
-//
-//        // product name, size, balance 필요
-//        Optional<Buy> bySizeId = sizeRepository.findById(buy.getSize().getId());
-//        Size size = bySizeId.orElseThrow(() -> new SizeException(SizeErrorCode.SIZE_NOT_FOUND));
-
-//    }
 
 }

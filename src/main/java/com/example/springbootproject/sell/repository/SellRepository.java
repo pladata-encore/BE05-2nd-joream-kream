@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SellRepository extends JpaRepository<Sell,Long> {
-    List<Sell> findAllBySize_IdOrderByPrice(Long id);
+    List<Sell> findAllBySize_IdAndMatchYnOrderByPrice(Long id, Boolean matchYn);
 }
