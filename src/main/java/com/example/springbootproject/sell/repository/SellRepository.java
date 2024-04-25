@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SellRepository extends JpaRepository<Sell,Long> {
     List<Sell> findAllBySize_IdAndMatchYnOrderByPrice(Long id, Boolean matchYn);
+
+    Sell findByUserIdAndSizeIdAndPriceAndMatchYnOrderByCreatedAt(Long userId, Long id, Long minPrice, Boolean matchYn);
 }
