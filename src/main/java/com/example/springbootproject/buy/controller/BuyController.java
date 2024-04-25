@@ -50,7 +50,7 @@ public class BuyController {
     @PostMapping("buy/{productId}")
     public void askForPurchase(@PathVariable("productId") Long productId,
                                @RequestParam("size") String sizeValue,
-                               @RequestParam Long minPrice,
+                               @RequestParam("minprice") Long minPrice,
                                @RequestBody BuyRequest buyRequest
                                ) {
         // minPrice : front 에서 form data로 쏴줌, URL에 안 들어감
