@@ -74,17 +74,17 @@ public class SellServiceImpl implements SellService {
         Long price = sellRequest.price();
         // 즉시 구매가 보다 작으면 즉시 구매가로 보여줌 @프론트
         Integer duration = sellRequest.duration();
-        Sell sell = new Sell(null, user, getSize, price, LocalDateTime.now(), true);
+        Sell sell = new Sell(null, user, getSize, price, LocalDateTime.now(), true,LocalDateTime.now().plusDays(duration));
         sellRepository.save(sell);
 //        point 차감
 //         1. 내 포인트 잔액을 가져온다.
-        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
-        if (balanceByUserId.isEmpty()) throw new  SellException(SellErrorCode.NO_POINT);
-        Long balance = balanceByUserId.get(0).getBalance();
-//        Long balance = 500000L;
+//        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
+//        if (balanceByUserId.isEmpty()) throw new SellException(SellErrorCode.NO_POINT);
+//        Long balance = balanceByUserId.get(0).getBalance();
+        Long balance = 500000L;
         if (balance < price) throw new SellException(SellErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
-        Long newBalance = balance - price; // 포인트 차감
+        Long newBalance = balance + price; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
                 , newBalance
                 , false
@@ -99,8 +99,8 @@ public class SellServiceImpl implements SellService {
                 , product.getName()
                 , price
                 , sizeValue
-                , user.getId()
-                , null // sellId는 판매자 쪽에서 넣어준다.
+                , null
+                , user.getId() // sellId는 판매자 쪽에서 넣어준다.
                 , LocalDateTime.now());
         orderHistoryRepository.save(orderHistory);
 
@@ -123,9 +123,9 @@ public class SellServiceImpl implements SellService {
 //        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
 //        Long balance = balanceByUserId.get(0).getBalance();
         Long balance = 500000L;
-        if (balance < maxPrice) throw new  SellException(SellErrorCode.NO_POINT);
+//        if (balance < 10000L) throw new  SellException(SellErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
-        Long newBalance = balance - maxPrice; // 포인트 차감
+        Long newBalance = balance +maxPrice; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
                 , newBalance
                 , false
@@ -141,8 +141,8 @@ public class SellServiceImpl implements SellService {
                 , product.getName()
                 , maxPrice
                 , sizeValue
-                , user.getId()
-                , null // sellId는 판매자 쪽에서 넣어준다.
+                , null
+                , user.getId() // sellId는 판매자 쪽에서 넣어준다.
                 , LocalDateTime.now());
         orderHistoryRepository.save(orderHistory);
 

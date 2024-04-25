@@ -22,7 +22,7 @@ public class Buy {
     @Column(name = "BUY_ID")
     private Long id;
     @JoinColumn(name = "USER_ID")
-    @OneToOne
+    @ManyToOne
     private User user;
     @JoinColumn(name = "SIZE_ID")
     @ManyToOne

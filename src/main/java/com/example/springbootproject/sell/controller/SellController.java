@@ -33,7 +33,7 @@ public class SellController {
     @PostMapping("sell/{productId}")
     public void askForPurchase(@PathVariable("productId") Long productId,
                                @RequestParam("size") String sizeValue,
-                               @RequestParam Long maxPrice,
+                               @RequestParam("maxprice") Long maxPrice,
                                @RequestBody SellRequest sellRequest
     ) {
         // minPrice : front 에서 form data로 쏴줌, URL에 안 들어감

@@ -40,4 +40,7 @@ public class Sell {
     @Column(name = "MATCH_YN")
     private Boolean matchYn;
 
+    @Column(name = "END_AT")
+    private LocalDateTime endAt;
+
 }
