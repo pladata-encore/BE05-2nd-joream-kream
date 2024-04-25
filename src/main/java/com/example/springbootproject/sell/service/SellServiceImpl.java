@@ -21,6 +21,7 @@ import com.example.springbootproject.sell.exception.SellException;
 import com.example.springbootproject.sell.repository.SellRepository;
 import com.example.springbootproject.size.domain.Size;
 import com.example.springbootproject.size.repository.SizeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -109,6 +110,7 @@ public class SellServiceImpl implements SellService {
     }
 
     @Override
+    @Transactional
     public void sellNow(Long productId, String sizeValue, Long maxPrice, Long userId) {
         // user 및 product 정보 가져오기
         Optional<User> userById = authRepository.findById(userId);
@@ -148,6 +150,11 @@ public class SellServiceImpl implements SellService {
 
         // 판매 테이블에서 matchYn = true로 바꿔줌
         // 이걸 위해 sellId가 필요 (판매 쪽에서는 판매가 되면 true)
+        Size size = sizeRepository.findByProductIdAndSizeValue(productId, sizeValue);
+        // buy 가져오기
+        Buy buy = buyRepository.findByUserIdAndSizeIdAndPriceAndMatchYnOrderByCreatedAt(userId, size.getId(), maxPrice, false);
+        // sell table의 matchYn 값을 true로 바꿔줌
+        buy.setMatchYn(true);
 
     }
 }
