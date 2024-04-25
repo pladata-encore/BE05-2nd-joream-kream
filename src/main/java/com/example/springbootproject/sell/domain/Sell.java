@@ -3,10 +3,7 @@ package com.example.springbootproject.sell.domain;
 import com.example.springbootproject.auth.domain.User;
 import com.example.springbootproject.size.domain.Size;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -38,6 +35,7 @@ public class Sell {
     private LocalDateTime createdAt;
 
     @Column(name = "MATCH_YN")
+    @Setter
     private Boolean matchYn;
 
 }

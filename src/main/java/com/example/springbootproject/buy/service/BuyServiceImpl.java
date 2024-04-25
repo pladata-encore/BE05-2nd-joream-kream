@@ -133,7 +133,6 @@ public class BuyServiceImpl implements BuyService {
         Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
 
 
-
         // point 차감
 //        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
 //        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
@@ -164,8 +163,12 @@ public class BuyServiceImpl implements BuyService {
 
         // 판매 테이블에서 matchYn = true로 바꿔줌
         // 이걸 위해 sellId가 필요 (판매 쪽에서는 판매가 되면 true)
-
-
+        // size 가져오기
+        Size size = sizeRepository.findByProductIdAndSizeValue(productId, sizeValue);
+        // sell 가져오기
+        Sell sell = sellRepository.findAllByUserIdAndSizeIdAndPriceOrderByCreatedAt(userId, size.getId(), minPrice);
+        // sell table의 matchYn 값을 true로 바꿔줌
+        sell.setMatchYn(true);
     }
 
 
