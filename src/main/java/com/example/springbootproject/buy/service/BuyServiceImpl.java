@@ -21,6 +21,8 @@ import com.example.springbootproject.product.repository.ProductRepository;
 import com.example.springbootproject.sell.domain.Sell;
 import com.example.springbootproject.sell.repository.SellRepository;
 import com.example.springbootproject.size.domain.Size;
+import com.example.springbootproject.size.exception.SizeErrorCode;
+import com.example.springbootproject.size.exception.SizeException;
 import com.example.springbootproject.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -167,7 +169,7 @@ public class BuyServiceImpl implements BuyService {
 //
 //        // product name, size, balance 필요
 //        Optional<Buy> bySizeId = sizeRepository.findById(buy.getSize().getId());
-//        Size size = bySizeId.orElseThrow(() -> new SizeException(SizeErrorCode.Size_NOT_FOUND));
+//        Size size = bySizeId.orElseThrow(() -> new SizeException(SizeErrorCode.SIZE_NOT_FOUND));
 
     }
 }
