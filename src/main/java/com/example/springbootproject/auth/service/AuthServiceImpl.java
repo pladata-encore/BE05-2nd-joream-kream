@@ -10,14 +10,12 @@ import com.example.springbootproject.auth.dto.response.UserInfoResponse;
 import com.example.springbootproject.auth.excrption.AuthErrorCode;
 import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.repository.AuthRepository;
-import lombok.Builder;
 import com.example.springbootproject.pointHistory.domain.PointHistory;
 import com.example.springbootproject.pointHistory.repository.PointRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.springbootproject.auth.dto.request.RechargePointsRequest;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> byId = authRepository.findById(token.id());
         User user = byId
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
-        user.setUsername(req.name());
+        user.setUsername(req.username());
         user.setAddress(req.address());
         user.setEmail(req.email());
         authRepository.save(user);
