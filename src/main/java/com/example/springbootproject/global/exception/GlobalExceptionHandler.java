@@ -2,6 +2,8 @@ package com.example.springbootproject.global.exception;
 
 import com.example.springbootproject.auth.excrption.AuthErrorResponse;
 import com.example.springbootproject.auth.excrption.AuthException;
+import com.example.springbootproject.buy.exception.BuyErrorResponse;
+import com.example.springbootproject.buy.exception.BuyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +19,14 @@ public class GlobalExceptionHandler {
                         .errorCode(e.getErrorCode())
                         .errorMessage(e.getErrorMessage())
                         .build());
+    }
+@ExceptionHandler(BuyException.class)
+public ResponseEntity<BuyErrorResponse> handleBuyException (BuyException e) {
+    return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+            .body(BuyErrorResponse.builder()
+                    .errorCode(e.getErrorCode())
+                    .errorMessage(e.getErrorMessage())
+                    .build());
     }
 
 }

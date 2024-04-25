@@ -81,9 +81,9 @@ public class BuyServiceImpl implements BuyService {
         // 구매 요청서 저장
         Long userId = buyRequest.userId();
         Optional<User> userById = authRepository.findById(userId);
-        User user = userById.orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User user = userById.orElseThrow(() -> new BuyException(BuyErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
-        Product product = productById.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
         Size getSize = sizeRepository.findBySizeValueAndProductId(sizeValue,productId);
 //        sizeRepository.save(size); // DB에 저장을 해놔야 뒤에 buyRepository에서 문제가 없다.
         Long price = buyRequest.price();
@@ -94,10 +94,10 @@ public class BuyServiceImpl implements BuyService {
 //        point 차감
 //         1. 내 포인트 잔액을 가져온다.
         List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
-        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balanceByUserId.isEmpty()) throw new  BuyException(BuyErrorCode.NO_POINT);
         Long balance = balanceByUserId.get(0).getBalance();
 //        Long balance = 500000L;
-        if (balance < price) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balance < price) throw new BuyException(BuyErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
         Long newBalance = balance - price; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
@@ -126,16 +126,16 @@ public class BuyServiceImpl implements BuyService {
     public void buyNow(Long productId, String sizeValue, Long minPrice, Long userId) {
         // user 및 product 정보 가져오기
         Optional<User> userById = authRepository.findById(userId);
-        User user = userById.orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User user = userById.orElseThrow(() -> new  BuyException(BuyErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
-        Product product = productById.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
 
         // point 차감
 //        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
 //        if (balanceByUserId.isEmpty()) throw new AuthException(AuthErrorCode.NO_POINT);
 //        Long balance = balanceByUserId.get(0).getBalance();
         Long balance = 500000L;
-        if (balance < minPrice) throw new AuthException(AuthErrorCode.NO_POINT);
+        if (balance < minPrice) throw new  BuyException(BuyErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
         Long newBalance = balance - minPrice; // 포인트 차감
         PointHistory pointHistory = new PointHistory(null
