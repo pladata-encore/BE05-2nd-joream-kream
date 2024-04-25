@@ -1,5 +1,6 @@
 package com.example.springbootproject.buy.service;
 
+import com.example.springbootproject.buy.dto.request.BuyRequest;
 import com.example.springbootproject.buy.dto.response.MinPricePerSize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,13 @@ public interface BuyService {
     List<MinPricePerSize> findMinPricePerSize(Long productId);
 
     // 입찰 가격을 받아서 구매 요청서 저장
-    void savePurchase(Long productId, String sizeValue, Long price, Integer duration, Long userId);
+    void savePurchase(Long productId, String sizeValue, Long minPrice, BuyRequest buyRequest);
 
     // 구매 체결은 판매 매물의 가격을 주기적으로 확인해서 진행
-    void buyNow(Long productId, String sizeValue, Long price, Long  userId);
+    void buyNow(Long productId, String sizeValue, Long minPrice, Long userId);
+
+
+    void refund(Long buyId, Long userId);
+
 
 }

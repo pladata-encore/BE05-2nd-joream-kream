@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PointRepository extends JpaRepository<PointHistory,Long> {
 
     List<PointHistory>findAllByUser(User user);
-    List<Integer> findBalanceByUserIdOrderByIdDesc(Long userId);
+    List<PointHistory> findAllByUserIdOrderByIdDesc(Long userId);
 
 
 }
