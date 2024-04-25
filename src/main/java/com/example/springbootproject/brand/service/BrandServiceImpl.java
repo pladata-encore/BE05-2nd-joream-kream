@@ -15,10 +15,10 @@ public class BrandServiceImpl implements BrandService {
     private final ProductRepository productRepository;
     @Override
     public List<ProductBrandResponse> getAllProductsByBrandId(Long brandId) {
-        List<ProductBrandResponse> productlist = productRepository.findAllByBrand_Id(brandId)
+        return productRepository.findAllByBrand_Id(brandId)
                 .stream()
                 .map(ProductBrandResponse::from)
-                .toList();
-        return productlist;
+                .toList()
+            ;
     }
 }

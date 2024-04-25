@@ -32,10 +32,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BuyException.class)
     public ResponseEntity<BuyErrorResponse> handleBuyException (BuyException e) {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-                .body(BuyErrorResponse.builder()
-                        .errorCode(e.getErrorCode())
-                        .errorMessage(e.getErrorMessage())
-                        .build());
+            .body(BuyErrorResponse.builder()
+                .errorCode(e.getErrorCode())
+                .errorMessage(e.getErrorMessage())
+                .build());
     }
 
     @ExceptionHandler(WishlistException.class)
