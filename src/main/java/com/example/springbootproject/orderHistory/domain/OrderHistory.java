@@ -33,7 +33,7 @@ public class OrderHistory {
     private Long buyerId;
 
     @Column(name = "SELLER_ID")
-    private Integer sellerId;
+    private Long sellerId;
 
     @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
