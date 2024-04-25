@@ -25,6 +25,7 @@ import com.example.springbootproject.size.exception.SizeErrorCode;
 import com.example.springbootproject.size.exception.SizeException;
 import com.example.springbootproject.size.repository.SizeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.webjars.NotFoundException;
@@ -161,6 +162,7 @@ public class BuyServiceImpl implements BuyService {
         // 판매 테이블에서 매물 삭제
     }
 
+
 //    @Override
 //    public void refund(Long buyId, Long userId) {
 //        Optional<Buy> byId = buyRepository.findById(buyId);
@@ -171,5 +173,6 @@ public class BuyServiceImpl implements BuyService {
 //        Optional<Buy> bySizeId = sizeRepository.findById(buy.getSize().getId());
 //        Size size = bySizeId.orElseThrow(() -> new SizeException(SizeErrorCode.SIZE_NOT_FOUND));
 
-    }
+//    }
+
 }

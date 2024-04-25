@@ -8,4 +8,5 @@ import java.util.List;
 public interface ProductService {
     List<ProductResponse> findAll();
     Product findById(Long id);
+    List<ProductResponse> findByProductName(String search);
 }

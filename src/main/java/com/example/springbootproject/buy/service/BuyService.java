@@ -26,8 +26,8 @@ public interface BuyService {
     // 구매 체결은 판매 매물의 가격을 주기적으로 확인해서 진행
     void buyNow(Long productId, String sizeValue, Long minPrice, Long userId);
 
-    void refund(Long buyId, Long userId);
 
+    void refund(Long buyId, Long userId);
 
 
 }

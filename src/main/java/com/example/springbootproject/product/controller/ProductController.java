@@ -4,10 +4,7 @@ import com.example.springbootproject.product.domain.Product;
 import com.example.springbootproject.product.dto.response.ProductResponse;
 import com.example.springbootproject.product.service.ProductService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,11 @@ public class ProductController {
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable("id") Long id) {
         return productService.findById(id);
+    }
+
+    // 검색 조회
+    @GetMapping("/search")
+    public List<ProductResponse> searchProductByName(@RequestParam("search") String search) {
+        return productService.findByProductName(search);
     }
 }
