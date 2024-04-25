@@ -5,6 +5,7 @@ import com.example.springbootproject.auth.config.TokenInfo;
 import com.example.springbootproject.auth.excrption.AuthErrorCode;
 import com.example.springbootproject.auth.excrption.AuthException;
 import com.example.springbootproject.auth.service.AuthService;
+import com.example.springbootproject.buy.dto.request.BuyRequest;
 import com.example.springbootproject.buy.dto.response.MinPricePerSize;
 import com.example.springbootproject.buy.service.BuyService;
 import lombok.AllArgsConstructor;
@@ -33,9 +34,10 @@ public class BuyController {
 
 
     // 구매 버튼 누르고 사이즈별 가격나올 때 사용
-//    @RequestHeader("Authorization") String bearerToken
-    @GetMapping("/productsDetail/{productId}")
-    public List<MinPricePerSize> getMinPricePerSize(@PathVariable("productId") Long productId) {
+//,@RequestHeader("Authorization") String bearerToken
+    @GetMapping("/productdetail/{productId}")
+    public List<MinPricePerSize> getMinPricePerSize(@PathVariable("productId") Long productId
+            ) {
         // token 인증 필요
 //        if(bearerToken.isEmpty()) throw new AuthException(AuthErrorCode.PERMISSION_DENIED);
         // 최소 가격 가져오기
@@ -44,26 +46,35 @@ public class BuyController {
 
     // 구매 버튼에서 상품 선택하고 희망 구매 가격 입력할 때 사용
     // 일반 구매 : 입찰 가격 및 경매 마감 기한을 작성해서 구매 요청서 저장하고 point 차감
-    @PostMapping("buy/{Id}")
-    public void askForPurchase(@PathVariable Long productId,
+//    @RequestHeader TokenInfo tokenInfo
+    @PostMapping("buy/{productId}")
+    public void askForPurchase(@PathVariable("productId") Long productId,
                                @RequestParam("size") String sizeValue,
-                               @RequestBody Long price,
-                               @RequestBody Integer duration,
-                               TokenInfo tokenInfo) {
+                               @RequestParam Long minPrice,
+                               @RequestBody BuyRequest buyRequest
+                               ) {
+        // minPrice : front 에서 form data로 쏴줌, URL에 안 들어감
         // userId 는 token 사용
-        buyService.savePurchase(productId, sizeValue, price, duration, tokenInfo.id());
+        buyService.savePurchase(productId, sizeValue, minPrice, buyRequest);
 
     }
 
-
-
     // 즉시 구매
-    @DeleteMapping("buy/{productId}")
-    public void buyNow(@PathVariable Long productId,
+
+    @PostMapping("buynow/{productId}")
+    public void buyNow(@PathVariable("productId") Long productId,
                        @RequestParam("size") String sizeValue,
-                       @RequestBody Long price,
-                       Long userId) {
-        buyService.buyNow(productId, sizeValue, price, userId);
+                       @RequestParam("minprice") Long minPrice,
+                       @RequestBody Long userId) {
+        buyService.buyNow(productId, sizeValue, minPrice, userId);
+    }
+
+    // 구매 입찰 기간 끝나고 자동 환불
+    @PostMapping("/refund")
+    public void refund(@RequestParam("buyId") Long buyId, @RequestHeader("Authorization") String bearerToken) {
+        TokenInfo tokenInfo = jwtTokenUtils.parseToken(bearerToken.substring(7));
+        Long userId = tokenInfo.id();
+        buyService.refund(buyId, userId);
     }
 
 
