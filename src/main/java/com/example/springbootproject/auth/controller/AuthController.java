@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
     private final JwtTokenUtils jwtTokenUtils;
+
+    @GetMapping("/refreshtoken")
+    public String refreshToken(@RequestHeader("Authorization") String bearerToken){
+        TokenInfo tokenInfo = getTokenInfo(bearerToken);
+        return authService.getRefreshToken(tokenInfo);
+    }
+
     @GetMapping("/info")
     public UserInfoResponse getUser(@RequestHeader("Authorization") String bearerToken){
         TokenInfo tokenInfo = getTokenInfo(bearerToken);

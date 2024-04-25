@@ -18,4 +18,6 @@ public interface AuthService {
     UserInfoResponse getUserById(TokenInfo tokenInfo);
 
     void updateUserById(UpdateUserRequest req, TokenInfo tokenInfo);
+
+    String getRefreshToken(TokenInfo tokenInfo);
 }

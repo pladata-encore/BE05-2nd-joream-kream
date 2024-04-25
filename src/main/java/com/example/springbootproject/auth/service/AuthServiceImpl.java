@@ -102,4 +102,9 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(req.email());
         authRepository.save(user);
     }
+
+    @Override
+    public String getRefreshToken(TokenInfo tokenInfo) {
+        return jwtTokenUtils.refreshToken(tokenInfo);
+    }
 }
