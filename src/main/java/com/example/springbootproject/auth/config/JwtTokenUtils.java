@@ -40,7 +40,20 @@ public class JwtTokenUtils {
                  .build()
                  .parse(token)
                  .getPayload();
+         System.out.println(payload.getExpiration());
          return TokenInfo.fromClaims(payload);
      }
+
+     //토큰 refresh
+    public String refreshToken(TokenInfo tokenInfo) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(tokenSecret.getBytes());
+
+        String token = Jwts.builder()
+                .claim("id", tokenInfo.id())
+                .signWith(secretKey)
+                .expiration(new Date(new Date().getTime() + tokenExpiration))
+                .compact();
+        return token;
+    }
 
 }
