@@ -24,6 +24,7 @@ import com.example.springbootproject.size.domain.Size;
 import com.example.springbootproject.size.exception.SizeErrorCode;
 import com.example.springbootproject.size.exception.SizeException;
 import com.example.springbootproject.size.repository.SizeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,7 @@ public class BuyServiceImpl implements BuyService {
         return sizeList;
     }
 
+
     @Override
     public void savePurchase(Long productId, String sizeValue, Long minPrice, BuyRequest buyRequest) {
         // 구매 요청서 저장
@@ -94,10 +96,10 @@ public class BuyServiceImpl implements BuyService {
         buyRepository.save(buy);
 //        point 차감
 //         1. 내 포인트 잔액을 가져온다.
-        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
-        if (balanceByUserId.isEmpty()) throw new  BuyException(BuyErrorCode.NO_POINT);
-        Long balance = balanceByUserId.get(0).getBalance();
-//        Long balance = 500000L;
+//        List<PointHistory> balanceByUserId = pointRepository.findAllByUserIdOrderByIdDesc(userId);
+//        if (balanceByUserId.isEmpty()) throw new  BuyException(BuyErrorCode.NO_POINT);
+//        Long balance = balanceByUserId.get(0).getBalance();
+        Long balance = 500000L;
         if (balance < price) throw new BuyException(BuyErrorCode.NO_POINT);
         // 2. 새로운 포인트 내역을 만든다.
         Long newBalance = balance - price; // 포인트 차감
@@ -124,6 +126,7 @@ public class BuyServiceImpl implements BuyService {
 
     }
 
+    @Transactional
     @Override
     public void buyNow(Long productId, String sizeValue, Long minPrice, Long userId) {
         // user 및 product 정보 가져오기
@@ -131,7 +134,6 @@ public class BuyServiceImpl implements BuyService {
         User user = userById.orElseThrow(() -> new  BuyException(BuyErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
         Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
-
 
 
         // point 차감
@@ -164,8 +166,13 @@ public class BuyServiceImpl implements BuyService {
 
         // 판매 테이블에서 matchYn = true로 바꿔줌
         // 이걸 위해 sellId가 필요 (판매 쪽에서는 판매가 되면 true)
-
-
+        // size 가져오기
+        Size size = sizeRepository.findByProductIdAndSizeValue(productId, sizeValue);
+        // sell 가져오기
+        Sell sell = sellRepository.findByUserIdAndSizeIdAndPriceAndMatchYnOrderByCreatedAt(userId, size.getId(), minPrice, false);
+        System.out.println(sell.getId());
+        // sell table의 matchYn 값을 true로 바꿔줌
+        sell.setMatchYn(true);
     }
 
 
