@@ -1,6 +1,7 @@
 package com.example.springbootproject.product.controller;
 
 import com.example.springbootproject.product.domain.Product;
+import com.example.springbootproject.product.dto.response.ProductDetailResponse;
 import com.example.springbootproject.product.dto.response.ProductResponse;
 import com.example.springbootproject.product.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,18 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
+    // 이름으로 검색 조회
+    @GetMapping(params = "name")
+    public List<ProductResponse> searchProductByName(@RequestParam(value = "name", required = false) String name) {
+        return productService.findByProductName(name);
+    }
+
+    // 카테고리로 검색 조회
+    @GetMapping(params = "category")
+    public List<ProductResponse> searchProductByCategory(@RequestParam(value = "category", required = false) String category) {
+        return productService.findByCategoryName(category);
+    }
+
     // 전체 조회
     @GetMapping
     public List<ProductResponse> getAllProducts() {
@@ -22,13 +35,8 @@ public class ProductController {
 
     // 상세 조회
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
+    public ProductDetailResponse getProductById(@PathVariable("id") Long id) {
         return productService.findById(id);
     }
 
-    // 검색 조회
-    @GetMapping("/search")
-    public List<ProductResponse> searchProductByName(@RequestParam("search") String search) {
-        return productService.findByProductName(search);
-    }
 }
