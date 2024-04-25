@@ -1,5 +1,5 @@
 package com.example.springbootproject.auth.dto.request;
 
-public record UpdateUserRequest(String name, String address, String email) {
+public record UpdateUserRequest(String username, String address, String email) {
 
 }

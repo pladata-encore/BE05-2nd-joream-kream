@@ -82,9 +82,9 @@ public class BuyServiceImpl implements BuyService {
         // 구매 요청서 저장
         Long userId = buyRequest.userId();
         Optional<User> userById = authRepository.findById(userId);
-        User user = userById.orElseThrow(() -> new BuyException(BuyErrorCode.USER_NOT_FOUND));
+        User user = userById.orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
         Optional<Product> productById = productRepository.findById(productId);
-        Product product = productById.orElseThrow(() -> new  BuyException(BuyErrorCode.PRODUCT_NOT_FOUND));
+        Product product = productById.orElseThrow(() -> new ProductException(ProductErrorCode.PRODUCT_NOT_FOUND));
         Size getSize = sizeRepository.findBySizeValueAndProductId(sizeValue,productId);
 //        sizeRepository.save(size); // DB에 저장을 해놔야 뒤에 buyRepository에서 문제가 없다.
         Long price = buyRequest.price();
