@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -23,17 +23,17 @@ public class OrderHistory {
     private String productName;
 
     @Column(name = "PRODUCT_PRICE")
-    private Integer productPrice;
+    private Long productPrice;
 
     @Column(name = "PRODUCT_SIZE")
     private String productSize;
 
     @Column(name = "BUYER_ID")
-    private Integer buyerId;
+    private Long buyerId;
 
     @Column(name = "SELLER_ID")
-    private Integer sellerId;
+    private Long sellerId;
 
     @Column(name = "CREATED_AT")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 }

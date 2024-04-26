@@ -22,6 +22,6 @@ public class Size {
     private String sizeValue;
 
     @JoinColumn(name = "PRODUCT_ID")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Product product;
 }

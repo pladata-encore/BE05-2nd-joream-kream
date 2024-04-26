@@ -1,13 +1,21 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/springbootproject
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/jjoream?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    password: 1234
+    username: root
+
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+
+token:
+  secret: joreamjoreamjoreamjoreamjoreamjoreamjoream
+  expiration: 600000

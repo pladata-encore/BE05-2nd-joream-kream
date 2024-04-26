@@ -1,55 +1,70 @@
 package com.example.springbootproject.buy.controller;
 
-import com.example.springbootproject.auth.domain.User;
-import com.example.springbootproject.auth.service.AuthService;
-import com.example.springbootproject.buy.dto.response.BuyResponse;
+import com.example.springbootproject.buy.dto.request.BuyRequest;
+import com.example.springbootproject.buy.dto.response.MinPricePerSize;
 import com.example.springbootproject.buy.service.BuyService;
-import com.example.springbootproject.sell.domain.Sell;
-import com.example.springbootproject.size.domain.Size;
-import lombok.AllArgsConstructor;
+import com.example.springbootproject.config.JwtTokenUtils;
+import com.example.springbootproject.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("api/v1/products/{productId}")
-@AllArgsConstructor
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BuyController {
 
     private final BuyService buyService;
     private final AuthService authService;
+    private final JwtTokenUtils jwtTokenUtils;
 
-    // 구매 요청서 저장
-    // 1. size id(requestParam), price, user id(path variable?)와 을 받아옴
+    // 해당 product_id를 가진 sell entity를 가져와야 한다.
+    // product_id를 가지고 size list를 가져온다.
+    // SELECT size_id FROM size WHERE product_id = ? (path variable)
 
-    // @RequestMapping을 써야 하나?
-    // 어떻게 2개의 entity에서 requestparam을 가져올까? user?id=1/size?id
-
-    // size value와 price 를 가져온다 from sell table
-    @GetMapping
+    // 받아온 sizeId를 기준으로 sell entity를 뒤지는데 size와 price만 출력한다.
+    // SELECT size.size_value, price FROM sell
+    // INNER JOIN size ON size.size_id = ? (받아온 값, loop돌려서 하나씩 빼야함)
 
 
-    // 즉시 구매 -> 포인트 차감
-    @PostMapping() // sizeId와 product id를 받아옴
-    public void
+    // 구매 버튼 누르고 사이즈별 가격나올 때 사용
+//,@RequestHeader("Authorization") String bearerToken
+    @GetMapping("/productdetail/{productId}")
+    public List<MinPricePerSize> getMinPricePerSize(@PathVariable("productId") Long productId
+            ) {
+        // token 인증 필요
+//        if(bearerToken.isEmpty()) throw new AuthException(AuthErrorCode.PERMISSION_DENIED);
+        // 최소 가격 가져오기
+        return buyService.findMinPricePerSize(productId);
+    }
+
+    // 구매 버튼에서 상품 선택하고 희망 구매 가격 입력할 때 사용
+    // 일반 구매 : 입찰 가격 및 경매 마감 기한을 작성해서 구매 요청서 저장하고 point 차감
+//    @RequestHeader TokenInfo tokenInfo
+    @PostMapping("buy/{productId}")
+    public void askForPurchase(@PathVariable("productId") Long productId,
+                               @RequestParam("size") String sizeValue,
+                               @RequestParam("minprice") Long minPrice,
+                               @RequestBody BuyRequest buyRequest
+                               ) {
+        // minPrice : front 에서 form data로 쏴줌, URL에 안 들어감
+        // userId 는 token 사용
+        buyService.savePurchase(productId, sizeValue, minPrice, buyRequest);
 
     }
 
-    // 일반 구매
-    // 1. Sell entity의 size id 와 price가 맞으면 거래 진행
+    // 즉시 구매
 
-
-
-    //  즉시 구매
-    // 1. 유저가 선택한 size id와 price가 sell entity의 size와 price와 맞으면 거래 진행
-    // user id는 user token을 이용하고, product에 size=260와 type=buy 넣는 게 맞지 않나?
-    @GetMapping("/buy")
-    public BuyResponse buyNow(@PathVariable("userId") Long userId, @RequestParam("sizeId") Long sizeId, @RequestParam("price") Long price) {
-        return buyService.buyNow(userId, sizeId, price);
+    @PostMapping("buynow/{productId}")
+    public void buyNow(@PathVariable("productId") Long productId,
+                       @RequestParam("size") String sizeValue,
+                       @RequestParam("minprice") Long minPrice,
+                       @RequestBody Long userId) {
+        buyService.buyNow(productId, sizeValue, minPrice, userId);
     }
+
+
 
 
 
