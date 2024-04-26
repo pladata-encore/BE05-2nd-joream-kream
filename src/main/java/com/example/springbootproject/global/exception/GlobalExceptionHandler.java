@@ -8,6 +8,8 @@ import com.example.springbootproject.pointHistory.excrption.PointErrorResponse;
 import com.example.springbootproject.pointHistory.excrption.PointException;
 import com.example.springbootproject.product.exception.ProductErrorResponse;
 import com.example.springbootproject.product.exception.ProductException;
+import com.example.springbootproject.sell.exception.SellErrorResponse;
+import com.example.springbootproject.sell.exception.SellException;
 import com.example.springbootproject.wishlist.exception.WishlistErrorResponse;
 import com.example.springbootproject.wishlist.exception.WishlistException;
 import lombok.extern.slf4j.Slf4j;
@@ -63,14 +65,14 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
-    // @ExceptionHandler(BuyException.class)
-    // public ResponseEntity<BuyErrorResponse> handleAuthException (BuyException e) {
-    //     return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-    //             .body(BuyErrorResponse.builder()
-    //                     .errorCode(e.getErrorCode())
-    //                     .errorMessage(e.getErrorMessage())
-    //                     .build());
-    //
-    // }
+    @ExceptionHandler(SellException.class)
+    public ResponseEntity<SellErrorResponse> handleAuthException (SellException e) {
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(SellErrorResponse.builder()
+                        .errorCode(e.getErrorCode())
+                        .errorMessage(e.getErrorMessage())
+                        .build());
+
+    }
 
 }
